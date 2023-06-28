@@ -5,9 +5,9 @@ import java.util.List;
 
 import com.springboot.crud.dto.SignUpDto;
 import com.springboot.crud.entity.Users;
+import org.springframework.web.client.RestTemplate;
 
 public interface signUpService {
-	
 
 
 

@@ -4,19 +4,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+import com.springboot.crud.entity.Book;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import com.springboot.crud.dto.SignUpDto;
 import com.springboot.crud.entity.Users;
 import com.springboot.crud.repository.signUpRepository;
+import org.springframework.web.client.RestTemplate;
+
 import java.util.Optional;
 
 @Service
 public class signUpServiceImp implements signUpService{
-	
+
+    @Autowired
+	private RestTemplate restTemplate;
 	@Autowired
 	private signUpRepository SignUpRepository;
    // private signUpService SignUpService;

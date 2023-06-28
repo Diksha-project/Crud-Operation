@@ -1,7 +1,9 @@
 package com.springboot.crud.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import com.springboot.crud.entity.Book;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,12 +23,14 @@ import com.springboot.crud.dto.SignUpDto;
 import com.springboot.crud.entity.Users;
 import com.springboot.crud.repository.signUpRepository;
 import com.springboot.crud.service.signUpService;
+import org.springframework.web.client.RestTemplate;
 
 @RequestMapping("/user")
 @RestController
 public class signUpController {
-	
-	
+
+	@Autowired
+	private RestTemplate restTemplate;
 	@Autowired
 	private signUpRepository SignUpRepository;
 	
@@ -54,7 +58,8 @@ public ResponseEntity<String> Login(@RequestParam("email") String Email,@Request
 public ResponseEntity<Users> GetUserById (@PathVariable("id") Long id) {
 System.out.println(id);
 	Users user = SignUpService.GetUserById(id);
-	
+	ArrayList<Book> book = restTemplate.getForObject("http://localhost:8081/book/user/"+id,ArrayList.class);
+	user.setBooks(book);
 	return new ResponseEntity<>(user, HttpStatus.OK);
 	
 }
@@ -64,7 +69,7 @@ System.out.println(id);
 public ResponseEntity<List<Users>> GetAll () {
 
 	List<Users> user = SignUpService.GetAll();
-	
+
 	return new ResponseEntity<>(user, HttpStatus.OK);
 	
 }
