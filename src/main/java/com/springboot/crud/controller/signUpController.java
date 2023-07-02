@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.springboot.crud.entity.Book;
+import com.springboot.crud.externalServices.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,7 +29,8 @@ import org.springframework.web.client.RestTemplate;
 @RequestMapping("/user")
 @RestController
 public class signUpController {
-
+    @Autowired
+	private BookService bookService;
 	@Autowired
 	private RestTemplate restTemplate;
 	@Autowired
@@ -68,11 +70,26 @@ System.out.println(id);
 @GetMapping("/getAll")
 public ResponseEntity<List<Users>> GetAll () {
 
-	List<Users> user = SignUpService.GetAll();
+		List<Users> users = SignUpService.GetAll();
+		List<Book> books = bookService.getAllBook();
 
-	return new ResponseEntity<>(user, HttpStatus.OK);
-	
-}
+
+	for (Users user: users) {
+		ArrayList<Book> booklist = new ArrayList<>();
+
+		for (Book book:books) {
+
+			if(book.getUserId().equals(user.getId())){
+				booklist.add(book);
+				break;
+			}
+
+		}
+		user.setBooks(booklist);
+	}
+
+		return ResponseEntity.ok(users);
+	}
 
 
 @PostMapping("/deleteById/{id}")

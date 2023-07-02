@@ -10,7 +10,6 @@ import lombok.Value;
 import java.util.ArrayList;
 
 @Data
-
 @Entity
 @Table(name ="crud_operation")
 
